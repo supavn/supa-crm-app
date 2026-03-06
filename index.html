@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rạng Đông CRM - Ứng dụng quản lý quan hệ khách hàng</title>
+  <meta name="description" content="Landing page giới thiệu và triển khai ứng dụng mobile Rạng Đông CRM dành cho đội ngũ kinh doanh, nhà phân phối và đối tác." />
+  <link rel="icon" type="image/png" href="favicon.png" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --rd-red: #e30613;
+      --rd-red-dark: #b70510;
+      --rd-gold: #f6b01f;
+      --rd-bg: #050814;
+      --rd-bg-soft: #0c1020;
+      --rd-border: rgba(255, 255, 255, 0.08);
+      --rd-text: #f9fafb;
+      --rd-muted: #9ca3af;
+      --rd-green: #22c55e;
+      --rd-blue: #0ea5e9;
+      --rd-radius-xl: 28px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Be Vietnam Pro", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top left, #1e293b 0, #020617 40%, #000 100%);
+      color: var(--rd-text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .page {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 20px 16px 40px;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--rd-border);
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.92), rgba(15, 23, 42, 0.7));
+      backdrop-filter: blur(22px);
+      position: sticky;
+      top: 12px;
+      z-index: 20;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 20%, #f97373 0, var(--rd-red) 40%, #7f1d1d 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fee2e2;
+      font-weight: 800;
+      font-size: 18px;
+      letter-spacing: 0.04em;
+      box-shadow:
+        0 0 0 1px rgba(248, 113, 113, 0.5),
+        0 10px 25px rgba(239, 68, 68, 0.4);
+    }
+
+    .brand-text-main {
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 13px;
+    }
+
+    .brand-text-sub {
+      font-size: 11px;
+      color: var(--rd-muted);
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 11px;
+      color: var(--rd-muted);
+    }
+
+    .pill {
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(251, 191, 36, 0.3);
+      background: radial-gradient(circle at top left, rgba(251, 191, 36, 0.25), rgba(15, 23, 42, 0.9));
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #fef9c3;
+      font-size: 11px;
+      font-weight: 500;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      gap: 28px;
+      margin-top: 32px;
+      align-items: center;
+    }
+
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--rd-border);
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(15, 23, 42, 0.55));
+      font-size: 11px;
+      color: var(--rd-muted);
+      width: fit-content;
+    }
+
+    .hero-kicker-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--rd-green);
+      box-shadow: 0 0 0 6px rgba(34, 197, 94, 0.25);
+    }
+
+    h1 {
+      font-size: clamp(26px, 3vw + 10px, 36px);
+      line-height: 1.15;
+      letter-spacing: 0.02em;
+    }
+
+    .hero-highlight {
+      color: var(--rd-gold);
+    }
+
+    .hero-desc {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--rd-muted);
+      max-width: 520px;
+    }
+
+    .hero-metrics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 4px;
+    }
+
+    .hero-metric {
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--rd-border);
+      font-size: 11px;
+      color: var(--rd-muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(15, 23, 42, 0.8);
+    }
+
+    .hero-metric strong {
+      color: #e5e7eb;
+      font-weight: 600;
+    }
+
+    .cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 12px;
+      align-items: center;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: 999px;
+      border: 0;
+      cursor: pointer;
+      background: radial-gradient(circle at top left, var(--rd-gold), var(--rd-red));
+      color: #111827;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow:
+        0 10px 30px rgba(248, 113, 113, 0.55),
+        0 0 0 1px rgba(248, 250, 252, 0.15);
+      transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px) scale(1.01);
+      filter: brightness(1.05);
+      box-shadow:
+        0 16px 40px rgba(248, 113, 113, 0.7),
+        0 0 0 1px rgba(248, 250, 252, 0.2);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 15px;
+      border-radius: 999px;
+      border: 1px solid var(--rd-border);
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--rd-muted);
+      font-size: 12px;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      transition: border-color 0.12s ease, background 0.12s ease, color 0.12s ease;
+    }
+
+    .btn-secondary:hover {
+      border-color: rgba(148, 163, 184, 0.7);
+      background: rgba(15, 23, 42, 1);
+      color: #e5e7eb;
+    }
+
+    .subtext {
+      font-size: 11px;
+      color: var(--rd-muted);
+      margin-top: 4px;
+    }
+
+    .hero-right {
+      position: relative;
+    }
+
+    .device-card {
+      position: relative;
+      border-radius: var(--rd-radius-xl);
+      padding: 16px 18px 18px;
+      background: radial-gradient(circle at top, rgba(248, 113, 113, 0.3), transparent 55%),
+                  linear-gradient(145deg, rgba(15, 23, 42, 0.96), rgba(15, 23, 42, 0.94));
+      border: 1px solid rgba(248, 250, 252, 0.05);
+      box-shadow:
+        0 30px 80px rgba(15, 23, 42, 0.95),
+        0 0 40px rgba(248, 113, 113, 0.25);
+      overflow: hidden;
+    }
+
+    .device-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+
+    .device-title {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .device-badge {
+      font-size: 10px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(34, 197, 94, 0.4);
+      background: rgba(22, 163, 74, 0.14);
+      color: #bbf7d0;
+    }
+
+    .screen {
+      border-radius: 20px;
+      border: 1px solid rgba(15, 23, 42, 0.9);
+      background: radial-gradient(circle at 20% 0, rgba(248, 250, 252, 0.1), transparent 40%),
+                  radial-gradient(circle at 100% 0, rgba(248, 250, 252, 0.06), transparent 50%),
+                  linear-gradient(160deg, #020617, #020617);
+      padding: 14px 10px 12px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      gap: 10px;
+    }
+
+    .screen-section-title {
+      font-size: 11px;
+      color: var(--rd-muted);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pill-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--rd-blue);
+    }
+
+    .deal-card {
+      border-radius: 12px;
+      padding: 7px 9px;
+      background: linear-gradient(135deg, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.85));
+      border: 1px solid rgba(148, 163, 184, 0.45);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .deal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .deal-title {
+      font-size: 11px;
+      font-weight: 600;
+      color: #e5e7eb;
+    }
+
+    .deal-tag {
+      font-size: 10px;
+      padding: 3px 7px;
+      border-radius: 999px;
+      background: rgba(37, 99, 235, 0.15);
+      color: #bfdbfe;
+    }
+
+    .deal-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 10px;
+      color: var(--rd-muted);
+    }
+
+    .deal-row strong {
+      font-weight: 600;
+      color: #e5e7eb;
+    }
+
+    .progress-bar {
+      margin-top: 4px;
+      width: 100%;
+      height: 5px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 1);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-fill {
+      width: 76%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--rd-red), var(--rd-gold));
+      border-radius: inherit;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 9px;
+      color: var(--rd-muted);
+      margin-top: 4px;
+    }
+
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 6px;
+      font-size: 10px;
+    }
+
+    .kpi-card {
+      border-radius: 9px;
+      padding: 6px 7px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(75, 85, 99, 0.7);
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .kpi-label {
+      color: var(--rd-muted);
+    }
+
+    .kpi-value {
+      font-weight: 600;
+      color: #e5e7eb;
+    }
+
+    .kpi-pill {
+      font-size: 9px;
+      padding: 1px 6px;
+      border-radius: 999px;
+      width: fit-content;
+      margin-top: 2px;
+      border: 1px solid rgba(34, 197, 94, 0.5);
+      color: #bbf7d0;
+      background: rgba(22, 163, 74, 0.15);
+    }
+
+    .device-float {
+      position: absolute;
+      bottom: 10px;
+      right: -6px;
+      border-radius: 999px;
+      padding: 8px 10px;
+      background: rgba(15, 23, 42, 0.96);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 10px;
+      color: var(--rd-muted);
+      box-shadow: 0 16px 40px rgba(15, 23, 42, 0.9);
+    }
+
+    .device-float-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--rd-green);
+      box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.25);
+    }
+
+    .sections {
+      margin-top: 32px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      gap: 18px;
+    }
+
+    .section-card {
+      border-radius: 20px;
+      padding: 16px 18px;
+      border: 1px solid var(--rd-border);
+      background: radial-gradient(circle at top left, rgba(248, 250, 252, 0.02), transparent 45%),
+                  rgba(15, 23, 42, 0.96);
+    }
+
+    .section-title {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .section-subtitle {
+      font-size: 11px;
+      color: var(--rd-muted);
+      margin-bottom: 10px;
+    }
+
+    .feature-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      font-size: 11px;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .feature-icon {
+      margin-top: 2px;
+      width: 16px;
+      height: 16px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      background: rgba(248, 113, 113, 0.12);
+      color: #fecaca;
+      flex-shrink: 0;
+    }
+
+    .feature-label {
+      color: #e5e7eb;
+      font-weight: 500;
+    }
+
+    .feature-desc {
+      color: var(--rd-muted);
+    }
+
+    .chips {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      font-size: 10px;
+    }
+
+    .chip {
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.95);
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      color: #d1d5db;
+    }
+
+    footer {
+      margin-top: 26px;
+      padding-top: 16px;
+      border-top: 1px solid rgba(31, 41, 55, 0.85);
+      font-size: 10px;
+      color: var(--rd-muted);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    footer a {
+      color: #9ca3af;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      color: #e5e7eb;
+      text-decoration: underline;
+    }
+
+    @media (max-width: 900px) {
+      header {
+        border-radius: 18px;
+      }
+
+      .hero,
+      .sections {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .hero-right {
+        order: -1;
+      }
+
+      .device-card {
+        border-radius: 22px;
+      }
+
+      .screen {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .sections {
+        margin-top: 24px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .header-right {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .cta-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .btn-primary,
+      .btn-secondary {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .page {
+        padding-inline: 14px;
+      }
+
+      footer {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="brand">
+        <div class="brand-mark">RD</div>
+        <div>
+          <div class="brand-text-main">RẠNG ĐÔNG</div>
+          <div class="brand-text-sub">Hệ sinh thái LED 4.0 · Since 1961</div>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="pill">
+          <span>CRM cho lực lượng bán hàng, nhà phân phối &amp; đối tác</span>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-left">
+          <div class="hero-kicker">
+            <span class="hero-kicker-dot"></span>
+            <span>Ứng dụng chính thức · Nội bộ Rạng Đông</span>
+          </div>
+          <h1>
+            Ứng dụng <span class="hero-highlight">Rạng Đông CRM</span><br />
+            Chuẩn hóa dữ liệu khách hàng, tăng tốc doanh thu.
+          </h1>
+          <p class="hero-desc">
+            Rạng Đông CRM giúp đội ngũ kinh doanh, bán hàng dự án và nhà phân phối
+            quản lý khách hàng, cơ hội và hệ thống điểm bán một cách tập trung,
+            realtime — đồng bộ với định hướng chuyển đổi số và nhà máy thông minh
+            của Rạng Đông.
+          </p>
+
+          <div class="hero-metrics">
+            <div class="hero-metric">
+              <strong>100% dữ liệu</strong>
+              <span>tập trung, dễ truy xuất</span>
+            </div>
+            <div class="hero-metric">
+              <strong>Tối ưu quy trình</strong>
+              <span>từ tiếp cận đến chốt đơn</span>
+            </div>
+          </div>
+
+          <div class="cta-row">
+            <a class="btn-primary"
+               href="https://github.com/supavn/supa-crm-app/releases/download/latest/RangDongCRM.apk"
+               target="_blank"
+               rel="noopener noreferrer">
+              <span>⬇︎ Tải APK Rạng Đông CRM</span>
+              <span style="font-size:11px; opacity:0.85;">Android</span>
+            </a>
+            <a class="btn-secondary"
+               href="https://rangdong.com.vn"
+               target="_blank"
+               rel="noopener noreferrer">
+              <span>Giới thiệu Rạng Đông</span>
+            </a>
+          </div>
+          <p class="subtext">
+            Dành cho nhân sự, đối tác, nhà phân phối được Rạng Đông cấp tài khoản truy cập.
+          </p>
+        </div>
+
+        <div class="hero-right">
+          <div class="device-card">
+            <div class="device-header">
+              <div class="device-title">Tổng quan kênh bán hàng</div>
+              <div class="device-badge">Realtime · Mobile CRM</div>
+            </div>
+
+            <div class="screen">
+              <div>
+                <div class="screen-section-title">
+                  <span class="pill-dot"></span>
+                  <span>Pipeline dự án &amp; đơn hàng</span>
+                </div>
+                <div class="deal-card">
+                  <div class="deal-header">
+                    <div class="deal-title">Chiếu sáng thông minh nhà máy Bắc Ninh</div>
+                    <span class="deal-tag">Giai đoạn: Đề xuất</span>
+                  </div>
+                  <div class="deal-row">
+                    <span>Giá trị dự kiến</span>
+                    <strong>4.2 tỷ VNĐ</strong>
+                  </div>
+                  <div class="deal-row">
+                    <span>Phụ trách</span>
+                    <span><strong>Phòng Dự án Miền Bắc</strong></span>
+                  </div>
+                  <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                  </div>
+                  <div class="progress-label">
+                    <span>Khả năng thắng 76%</span>
+                    <span>Hạn follow-up: 12/03</span>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <div class="screen-section-title">
+                  <span class="pill-dot"></span>
+                  <span>KPI theo khu vực &amp; kênh</span>
+                </div>
+                <div class="kpi-grid">
+                  <div class="kpi-card">
+                    <div class="kpi-label">Miền Bắc · Tháng 3</div>
+                    <div class="kpi-value">118%</div>
+                    <div class="kpi-pill">Vượt chỉ tiêu</div>
+                  </div>
+                  <div class="kpi-card">
+                    <div class="kpi-label">Kênh dự án</div>
+                    <div class="kpi-value">63 cơ hội</div>
+                    <div class="kpi-pill">14 cơ hội nóng</div>
+                  </div>
+                  <div class="kpi-card">
+                    <div class="kpi-label">Check-in điểm bán</div>
+                    <div class="kpi-value">240+</div>
+                    <div class="kpi-pill">Trong 7 ngày gần nhất</div>
+                  </div>
+                  <div class="kpi-card">
+                    <div class="kpi-label">Tốc độ xử lý lead</div>
+                    <div class="kpi-value">&lt; 2 giờ</div>
+                    <div class="kpi-pill">Chuẩn hóa dịch vụ</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="device-float">
+              <div class="device-float-dot"></div>
+              <div>
+                <div>CRM kết nối dữ liệu nhà máy thông minh Rạng Đông</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="sections">
+        <div class="section-card">
+          <h2 class="section-title">Lợi ích cho Rạng Đông &amp; hệ sinh thái LED 4.0</h2>
+          <p class="section-subtitle">
+            Tối ưu quản trị kênh bán hàng, gia tăng chất lượng dịch vụ và giữ vững vị thế dẫn đầu
+            trong hệ sinh thái chiếu sáng 4.0.
+          </p>
+          <ul class="feature-list">
+            <li class="feature-item">
+              <div class="feature-icon">✔</div>
+              <div>
+                <div class="feature-label">Một nguồn dữ liệu khách hàng duy nhất</div>
+                <div class="feature-desc">
+                  Thay thế file Excel phân tán, mọi lịch sử tương tác, báo giá, dự án, bảo hành đều tập trung
+                  trên một nền tảng.
+                </div>
+              </div>
+            </li>
+            <li class="feature-item">
+              <div class="feature-icon">✔</div>
+              <div>
+                <div class="feature-label">Tăng minh bạch &amp; khả năng dự báo</div>
+                <div class="feature-desc">
+                  Pipeline, tỷ lệ thắng, doanh thu theo khu vực, ngành hàng… được cập nhật realtime giúp Ban lãnh đạo
+                  dễ dàng ra quyết định.
+                </div>
+              </div>
+            </li>
+            <li class="feature-item">
+              <div class="feature-icon">✔</div>
+              <div>
+                <div class="feature-label">Bám sát chiến lược chuyển đổi số</div>
+                <div class="feature-desc">
+                  Kết nối cùng lộ trình nhà máy thông minh, Smart Home, Smart Farm… để xây dựng hành trình khách hàng
+                  xuyên suốt, đa kênh.
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="section-card">
+          <h2 class="section-title">Tính năng chính của ứng dụng Rạng Đông CRM</h2>
+          <p class="section-subtitle">
+            Thiết kế riêng cho đặc thù kênh phân phối, dự án và hệ thống điểm bán của Rạng Đông.
+          </p>
+          <ul class="feature-list">
+            <li class="feature-item">
+              <div class="feature-icon">①</div>
+              <div>
+                <div class="feature-label">Quản lý khách hàng &amp; điểm bán</div>
+                <div class="feature-desc">
+                  Hồ sơ khách hàng, nhà phân phối, showroom, đại lý… được phân loại theo khu vực, kênh, ngành hàng.
+                </div>
+              </div>
+            </li>
+            <li class="feature-item">
+              <div class="feature-icon">②</div>
+              <div>
+                <div class="feature-label">Quản lý cơ hội, báo giá &amp; dự án</div>
+                <div class="feature-desc">
+                  Theo dõi đầy đủ trạng thái, giá trị, xác suất thắng và lịch sử làm việc với từng cơ hội kinh doanh.
+                </div>
+              </div>
+            </li>
+            <li class="feature-item">
+              <div class="feature-icon">③</div>
+              <div>
+                <div class="feature-label">Check-in &amp; ghi nhận hoạt động ngoài thị trường</div>
+                <div class="feature-desc">
+                  Ghi nhận viếng thăm điểm bán, trưng bày, chương trình khuyến mãi… trực tiếp trên di động, kèm hình ảnh.
+                </div>
+              </div>
+            </li>
+            <li class="feature-item">
+              <div class="feature-icon">④</div>
+              <div>
+                <div class="feature-label">Báo cáo KPI realtime</div>
+                <div class="feature-desc">
+                  Bảng điều khiển cho quản lý vùng, phòng kinh doanh và Ban lãnh đạo với số liệu cập nhật liên tục.
+                </div>
+              </div>
+            </li>
+          </ul>
+          <div class="chips">
+            <span class="chip">Hỗ trợ Android (APK nội bộ)</span>
+            <span class="chip">Đăng nhập bằng tài khoản được Rạng Đông cấp</span>
+            <span class="chip">Tích hợp mở rộng với hệ thống hiện có</span>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <span>© Rạng Đông · Ứng dụng CRM phục vụ chuyển đổi số lực lượng bán hàng.</span>
+      <span>
+        Thông tin chi tiết vui lòng xem tại
+        <a href="https://rangdong.com.vn" target="_blank" rel="noopener noreferrer">rangdong.com.vn</a>
+      </span>
+    </footer>
+  </div>
+</body>
+</html>
+
